@@ -1,0 +1,22 @@
+"CFBundleDisplayName"="Lloverá";
+"CFBundleName"="Lloverá";
+"NSLocationAlwaysUsageDescription"="Esto es necesario para brindarle información meteorológica precisa.";
+"NSLocationWhenInUseUsageDescription"="Esto es necesario para brindarle información meteorológica precisa.";
+
+"Weather"="Clima";
+"Tomorrow"="Mañana";
+"Next %lld days"="Próximos %lld días";
+
+"Conditions"="Condiciones";
+"Conditions, %@"="Condiciones, %@";
+"Max wind"="Vientos máximos";
+"Avg humidity"="Humedad promedio";
+"Total precipitation"="Precipitatión total";
+"Total snow"="Nieve total";
+"UV"="Rayos UV";
+"Hourly"="Por hora";
+
+"Check the application location permission."="Verifica los permisos de geolocalización de la applicación.";
+"Go to settings"="Configuración";
+"It was not possible to get the weather information.\nPlease try again in a minute!"="No fue posible obtener la información del clima.\n¡Inténtalo de nuevo en un minuto!";
+"Try again"="Reintentar";
