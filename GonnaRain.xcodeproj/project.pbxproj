@@ -313,9 +313,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "
-";
+			shellPath = /bin/zsh;
+			shellScript = "source ~/.zshrc\ngenenv\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
