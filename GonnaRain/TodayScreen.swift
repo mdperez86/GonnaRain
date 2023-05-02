@@ -13,6 +13,7 @@ struct TodayScreen: View {
     let hours: [Hour]
     let tomorrow: ForecastDay
     let next7Days: [ForecastDay]
+    var withLocation: Bool = false
     
     @State var showTomorrowScreen = false
     @State var showNext7DaysScreen = false
@@ -25,17 +26,26 @@ struct TodayScreen: View {
                 Text("Weather")
                     .font(.title2)
                 
-                Text(locationName)
-                    .font(.largeTitle)
-                    .foregroundColor(Color("Heading"))
-                
+                HStack(alignment: .center) {
+                    if withLocation {
+                        Image(systemName: "location")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 18)
+                    }
+                    
+                    Text(locationName)
+                        .font(.largeTitle)
+                        .foregroundColor(Color("Heading"))
+                }
+                    
                 Text(Date.now.formatted(date: .complete, time: .shortened))
                     .foregroundColor(Color("Text"))
             }
             
             Spacer()
             
-            VStack {
+            VStack(spacing: 8) {
                 ImageView(imageSrc: current.condition.imageUrl)
                     .frame(width: 128, height: 128)
                 
@@ -50,7 +60,7 @@ struct TodayScreen: View {
             HStack {
                 Spacer()
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Image(systemName: "wind")
                         Text(Measurement(value: current.wind_kph, unit: UnitSpeed.kilometersPerHour).formatted())
@@ -64,7 +74,7 @@ struct TodayScreen: View {
                 
                 Spacer()
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Image(systemName: "humidity")
                         Text((current.humidity / 100).formatted(.percent))
@@ -78,7 +88,7 @@ struct TodayScreen: View {
                 
                 Spacer()
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Image(systemName: "barometer")
                         Text(Measurement(value: current.pressure_in, unit: UnitPressure.inchesOfMercury).formatted())
@@ -151,7 +161,7 @@ struct TodayScreen: View {
 
 struct TodayScreen_Previews: PreviewProvider {
     static var previews: some View {
-        TodayScreen(locationName: Location.example.name, current: Current.example, hours: ForecastDay.example.hour, tomorrow: ForecastDay.example, next7Days: [ForecastDay.example, ForecastDay.example])
+        TodayScreen(locationName: Location.example.name, current: Current.example, hours: ForecastDay.example.hour, tomorrow: ForecastDay.example, next7Days: [ForecastDay.example, ForecastDay.example], withLocation: true)
             .environment(\.locale, .init(identifier: "es"))
     }
 }

@@ -47,18 +47,23 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         print(#function, mapStatus(status: status))
         
         switch status {
-        case .authorizedWhenInUse: return
-        case .authorizedAlways: return
-        case .restricted: return
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+            return
+        case .authorizedAlways:
+            manager.startUpdatingLocation()
+            return
+        case .restricted:
+            manager.startUpdatingLocation()
+            return
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
             onError?(.notDetermined)
             return
         case .denied:
             onError?(.denied)
             return
         default:
-            locationManager.requestWhenInUseAuthorization()
+            manager.requestWhenInUseAuthorization()
             onError?(.unknown)
             return
         }
@@ -70,7 +75,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
         onChanged?(location)
         
-        locationManager.stopUpdatingLocation()
+        manager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

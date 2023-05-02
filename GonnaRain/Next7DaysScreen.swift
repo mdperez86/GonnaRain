@@ -20,7 +20,7 @@ struct Next7DaysScreen: View {
                             ImageView(imageSrc: forecastday.day.condition.imageUrl)
                                 .frame(width: 48.0, height: 48.0)
                             
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 4) {
                                 Text(forecastday.localDate.formatted(Date.FormatStyle().weekday(.wide)))
                                     .font(.headline)
                                 
@@ -30,13 +30,14 @@ struct Next7DaysScreen: View {
                             
                             Spacer()
                             
-                            VStack {
+                            VStack(alignment: .trailing, spacing: 4) {
                                 Text(Measurement(value: forecastday.day.maxtemp_c, unit: UnitTemperature.celsius).formatted())
                                     .font(.headline)
                                 
                                 Text(Measurement(value: forecastday.day.mintemp_c, unit: UnitTemperature.celsius).formatted())
                                     .font(.headline)
                             }
+                            .padding(.trailing)
                         }
                     }
                 }

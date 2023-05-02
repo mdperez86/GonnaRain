@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-class TodayViewModel : ObservableObject {
+class AppViewModel : ObservableObject {
     @Published var locationName: String?
     @Published var current: Current?
     @Published var hours: [Hour]?
@@ -27,8 +27,12 @@ class TodayViewModel : ObservableObject {
         self.key = Env.apiKey
     }
     
-    func fetch(latitude: Double, longitude: Double) {
-        guard let host = host, let key = key, let url = URL(string: "\(host)/v1/forecast.json?key=\(key)&q=\(latitude),\(longitude)&days=8") else {
+    func fetch(latitude: Double?, longitude: Double?) {
+        let q = latitude != nil && longitude != nil ? "\(latitude!),\(longitude!)" : "auto:ip"
+        
+        print(#function, q)
+        
+        guard let host = host, let key = key, let url = URL(string: "\(host)/v1/forecast.json?key=\(key)&q=\(q)&days=8") else {
             return
         }
         

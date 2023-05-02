@@ -11,8 +11,7 @@ import CoreLocation
 @main
 struct WeatherApp: App {
     private let locationManager = LocationManager()
-    @StateObject private var viewModel = TodayViewModel()
-    @State private var locationError: LocationError?
+    @StateObject private var viewModel = AppViewModel()
     @State private var location: CLLocation?
     
     private let settingsUrl = URL(string: UIApplication.openSettingsURLString)!
@@ -21,26 +20,14 @@ struct WeatherApp: App {
         WindowGroup {
             Group {
                 if let locationName = viewModel.locationName, let current = viewModel.current, let hours = viewModel.hours, let tomorrow = viewModel.tomorrow, let next7Days = viewModel.next7Days {
-                    TodayScreen(locationName: locationName, current: current, hours: hours, tomorrow: tomorrow, next7Days: next7Days)
+                    TodayScreen(locationName: locationName, current: current, hours: hours, tomorrow: tomorrow, next7Days: next7Days, withLocation: location != nil)
                 } else if viewModel.loading == false, viewModel.error != nil {
                     ErrorView(message: {
                         Text("It was not possible to get the weather information.\nPlease try again in a minute!")
                     }, buttonLabel: {
                         Text("Try again")
                     }) {
-                        if let latitude = location?.coordinate.latitude, let longitude = location?.coordinate.longitude {
-                            viewModel.fetch(latitude: latitude, longitude: longitude)
-                        }
-                    }
-                } else if locationError != nil {
-                    ErrorView(message: {
-                        Text("Check the application location permission.")
-                    }, buttonLabel: {
-                        Text("Go to settings")
-                    }) {
-                        if UIApplication.shared.canOpenURL(settingsUrl) {
-                            UIApplication.shared.open(settingsUrl)
-                        }
+                        viewModel.fetch(latitude: location?.coordinate.latitude, longitude: location?.coordinate.longitude)
                     }
                 } else {
                     LoadingView()
@@ -51,10 +38,10 @@ struct WeatherApp: App {
             .onAppear {
                 locationManager.watchLocationChange { location in
                     self.location = location
-                    locationError = nil
                     viewModel.fetch(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
                 } onError: { error in
-                    locationError = error
+                    self.location = nil
+                    viewModel.fetch(latitude: nil, longitude: nil)
                 }
             }
         }
